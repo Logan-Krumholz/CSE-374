@@ -1,21 +1,22 @@
 CC = gcc
 CFLAGS = -Wall -Werror -std=c11
+OBJS = t9.o trienode.o
 
-all: tnine
+all: t9
 
-tnine: tnine.o trienode.o
-	$(CC) $(CFLAGS) -o tnine tnine.o trienode.o
+t9: $(OBJS)
+	$(CC) $(CFLAGS) -o t9 $(OBJS)
 
-tnine.o: tnine.c trienode.h
-	$(CC) $(CFLAGS) -c tnine.c
+t9.o: t9.c trienode.h
+	$(CC) $(CFLAGS) -c t9.c
 
 trienode.o: trienode.c trienode.h
 	$(CC) $(CFLAGS) -c trienode.c
 
-test: tnine
-	./tnine dictionary.txt < test.txt
+test: t9
+	./t9 dictionary.txt < test.txt
 
 clean:
-	rm -f *.o tnine
+	rm -f *.o t9
 
 .PHONY: all clean test
