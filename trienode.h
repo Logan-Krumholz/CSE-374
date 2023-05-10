@@ -10,7 +10,7 @@
 #include <stdio.h>
 
 #define MAXLEN 50
-#define BRANCHES 9
+#define BRANCHES 11
 
 // trieNode is one node in an 9-tree, where branches correspond to
 // # and the T9 alphabet.
@@ -19,7 +19,8 @@ typedef struct trieNode {
   char *word;
 } trieNode;
 
-// Initializes a trie tree 
+// given a word list (dict), build a trie that holds
+// each word.  Return pointer to the root node.
 trieNode * build_tree();
 
 // given a pattern, return the word stored in the
@@ -28,7 +29,7 @@ char* get_word(trieNode *root, char *pattern);
 int T9conversion(char letter);
 void build_trie(trieNode * root, char * s);
 trieNode * find_nodes(trieNode * root, char * number);
-// Cleans up memory 
+// deletes the entire tree branching from root
 void malfree(trieNode *root);
 
 
