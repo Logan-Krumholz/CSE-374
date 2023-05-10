@@ -15,7 +15,7 @@ trieNode * build_tree() {
   node -> word = NULL;
   int i;
   for (i = 0; i < 11; i++) {
-    node -> branch[i] = NULL;
+    node -> branches[i] = NULL;
   }
   return node;
 }
@@ -52,20 +52,20 @@ void build_trie(trieNode * root, char * s) {
       i++;
       continue;
     }
-    if (current -> branch[digit] == NULL) {
-      current -> branch[digit] = build_tree();
+    if (current -> branches[digit] == NULL) {
+      current -> branches[digit] = build_tree();
     }
-    current = current -> branch[digit];
+    current = current -> branches[digit];
     i++;
   }
-  while (current -> branch[10] != NULL) {
-    current = current -> branch[10];
+  while (current -> branches[10] != NULL) {
+    current = current -> branches[10];
   }
   if (current -> word == NULL) {
     current -> word = text;
   } else {
-    current -> branch[10] = build_tree();
-    current = current -> branch[10];
+    current -> branches[10] = build_tree();
+    current = current -> branches[10];
     current -> word = text;
   }
 }
@@ -81,15 +81,15 @@ trieNode * find_nodes(trieNode * root, char * number) {
         // ignore invalid digits
         continue;
       }
-      if (cur -> branch[digit] == NULL) {
+      if (cur -> branches[digit] == NULL) {
         return NULL;
       }
-      cur = cur -> branch[digit];
+      cur = cur -> branches[digit];
     } else {
-      if (cur -> branch[10] == NULL) {
+      if (cur -> branches[10] == NULL) {
         return NULL;
       }
-      cur = cur -> branch[10];
+      cur = cur -> branches[10];
     }
   }
   return cur;
@@ -99,9 +99,9 @@ trieNode * find_nodes(trieNode * root, char * number) {
 void malfree(trieNode * root) {
   int i;
   for (i = 0; i < 11; i++) {
-    if (root -> branch[i] != NULL) {
-      malfree(root -> branch[i]);
-      free(root -> branch[i]);
+    if (root -> branches[i] != NULL) {
+      malfree(root -> branches[i]);
+      free(root -> branches[i]);
     }
   }
   if (root -> word != NULL) {
