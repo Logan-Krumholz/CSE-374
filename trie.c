@@ -80,7 +80,7 @@ trieNode * find_nodes(trieNode * root, char * number) {
     if (number[i] != '#') {
       int digit = number[i] - '0';
       if (digit < 2 || digit > 9) {
-        // Ignore other inputs
+        // ignore invalid digits
         continue;
       }
       if (cur -> branches[digit] == NULL) {
@@ -97,7 +97,7 @@ trieNode * find_nodes(trieNode * root, char * number) {
   return cur;
 }
 
-// Recursively disconnect by freeing memory
+// Recursively disconnect by freeing
 void malfree(trieNode * root) {
   int i;
   for (i = 0; i < 11; i++) {
