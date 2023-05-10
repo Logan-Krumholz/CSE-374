@@ -1,97 +1,110 @@
-/* trie implements a trie, made of trieNodes. This includes
-   code to build, search, and delete a trie
-   CSE374, HW5, 22wi 
-*/
+/*
+ * trie.c 
+ * CSE 374 HW 5 Logan Krumholz
+ */
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include "trienode.h"
+#include <ctype.h>
+#include "trieNode.h"
 
-// Prototypes for helper functions 
-void insert_helper(TrieNode *root, const char *key, const char *value);
-char *search_helper(TrieNode *root, const char *key);
-int delete_helper(TrieNode **root, const char *key);
-
-// Inserts a new key-value pair into the trie 
-void trie_insert(TrieNode *root, const char *key, const char *value) {
-    insert_helper(root, key, value);
+// Create empty trie 
+trieNode * build_tree() {
+  trieNode * node = (trieNode *) malloc(sizeof(trieNode));
+  node -> word = NULL;
+  int i;
+  for (i = 0; i < 11; i++) {
+    node -> branch[i] = NULL;
+  }
+  return node;
 }
 
-// Searches throiugh trie and returns value
-char *trie_search(TrieNode *root, const char *key) {
-    return search_helper(root, key);
+// T9 conversion 
+int T9conversion(char letter) {
+  switch (tolower(letter)) {
+    case 'a': case 'b': case 'c': return 2;
+    case 'd': case 'e': case 'f': return 3;
+    case 'g': case 'h': case 'i': return 4;
+    case 'j': case 'k': case 'l': return 5;
+    case 'm': case 'n': case 'o': return 6;
+    case 'p': case 'q': case 'r': case 's': return 7;
+    case 't': case 'u': case 'v': return 8;
+    case 'w': case 'x': case 'y': case 'z': return 9;
+    default: return 0;
+  }
 }
 
-// Deletes a pair from trie if needed 
-int trie_delete(TrieNode **root, const char *key) {
-    return delete_helper(root, key);
-}
-
-// Inserts a key-value into trie
-void insert_helper(TrieNode *root, const char *key, const char *value) {
-    if (*key == '\0') {
-        root->value = strdup(value);
-        return;
+// Translate word by building trie
+void build_trie(trieNode * root, char * s) {
+  trieNode * current = root;
+  int length = strlen(s);
+  char * text = (char *) malloc(length);
+  if (text != NULL) {
+    strncpy(text, s, length - 1);
+    text[length - 1] = '\0';
+  }
+  int i = 0;
+  while (s[i] != '\n') {
+    int digit = T9conversion(s[i]);
+    if (digit == 0) {
+      // Remove excess chars not alphabet
+      i++;
+      continue;
     }
-    int index = *key - 'a';
-    if (root->children[index] == NULL) {
-        root->children[index] = trie_create_node();
+    if (current -> branch[digit] == NULL) {
+      current -> branch[digit] = build_tree();
     }
-    insert_helper(root->children[index], key + 1, value);
+    current = current -> branch[digit];
+    i++;
+  }
+  while (current -> branch[10] != NULL) {
+    current = current -> branch[10];
+  }
+  if (current -> word == NULL) {
+    current -> word = text;
+  } else {
+    current -> branch[10] = build_tree();
+    current = current -> branch[10];
+    current -> word = text;
+  }
 }
 
-// Helper function to search for a key in the trie
-char *search_helper(TrieNode *root, const char *key) {
-    if (*key == '\0') {
-        return root->value;
-    }
-    int index = *key - 'a';
-    if (root->children[index] == NULL) {
+// Traverse Trie given word
+trieNode * find_nodes(trieNode * root, char * number) {
+  trieNode * cur = root;
+  int i;
+  for (i = 0; i < strlen(number); i++) {
+    if (number[i] != '#') {
+      int digit = number[i] - '0';
+      if (digit < 2 || digit > 9) {
+        // ignore invalid digits
+        continue;
+      }
+      if (cur -> branch[digit] == NULL) {
         return NULL;
+      }
+      cur = cur -> branch[digit];
+    } else {
+      if (cur -> branch[10] == NULL) {
+        return NULL;
+      }
+      cur = cur -> branch[10];
     }
-    return search_helper(root->children[index], key + 1);
+  }
+  return cur;
 }
 
-// Helper function to delete a key-value pair from the trie
-int delete_helper(TrieNode **root, const char *key) {
-    if (*root == NULL) {
-        return 0;
+// Recursively disconnect by freeing
+void malfree(trieNode * root) {
+  int i;
+  for (i = 0; i < 11; i++) {
+    if (root -> branch[i] != NULL) {
+      malfree(root -> branch[i]);
+      free(root -> branch[i]);
     }
-    if (*key == '\0') {
-        free((*root)->value);
-        (*root)->value = NULL;
-        int count = 0;
-        for (int i = 0; i < 26; i++) {
-            if ((*root)->children[i] != NULL) {
-                count++;
-            }
-        }
-        if (count == 0) {
-            trie_delete_node(*root);
-            *root = NULL;
-            return 1;
-        }
-        return 0;
-    }
-    int index = *key - 'a';
-    if ((*root)->children[index] == NULL) {
-        return 0;
-    }
-    int deleted = delete_helper(&((*root)->children[index]), key + 1);
-    if (deleted) {
-        (*root)->children[index] = NULL;
-        int count = 0;
-        for (int i = 0; i < 26; i++) {
-            if ((*root)->children[i] != NULL) {
-                count++;
-            }
-        }
-        if ((*root)->value == NULL && count == 0) {
-            trie_delete_node(*root);
-            *root = NULL;
-            return 1;
-        }
-    }
-    return 0;
+  }
+  if (root -> word != NULL) {
+    free(root -> word);
+  }
 }
