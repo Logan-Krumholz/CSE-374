@@ -14,19 +14,19 @@
 int main(int argc, char* argv[]) {
   FILE * fp;
   char line[100];
-  Node_t * root = CreateTrieNode();
+  trieNode * root = build_tree();
   fp = fopen(argv[1], "r");
   if (fp == NULL) {
     fprintf(stderr, "%s", "Could not open the file.\n");
     return 1;
   }
   while (fgets(line, 100, fp) != NULL) {
-    BuildTrie(root, line);
+    build_trie(root, line);
   }
   fclose(fp);
   printf("Enter \"exit\" to quit.\n");
   char number[100];  
-  Node_t * current = root;  
+  trieNode * current = root;  
   // Runs until user enters "exit"
   while (true) {
     printf("Enter Key Sequence (or \"#\" for next word): \n");
@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
         current = root;
       }
     } else {
-      current = FindNode(current, number);
+      current = find_nodes(current, number);
       if (current == NULL) {
         printf("Not found in current dictionary.\n");
         current = root;
