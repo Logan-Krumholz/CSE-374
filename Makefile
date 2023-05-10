@@ -1,22 +1,14 @@
-CC = gcc
-CFLAGS = -Wall -Werror -std=c11
-OBJS = t9.o trienode.o
+# Makefile
+# CSE 374 HW 5, Logan Krumholz
 
-all: t9
+t9: t9.o trie.o
+	gcc -Wall -g -std=c11 -o t9 t9.o trie.o
 
-t9: $(OBJS)
-	$(CC) $(CFLAGS) -o t9 $(OBJS)
+trie.o: trie.c trienode.h
+	gcc -Wall -g -std=c11 -c trie.c
 
 t9.o: t9.c trienode.h
-	$(CC) $(CFLAGS) -c t9.c
-
-trienode.o: trienode.c trienode.h
-	$(CC) $(CFLAGS) -c trienode.c
-
-test: t9
-	./t9 dictionary.txt < test.txt
+	gcc -Wall -g -std=c11 -c t9.c
 
 clean:
-	rm -f *.o t9
-
-.PHONY: all clean test
+	rm -f *.o t9 *~
