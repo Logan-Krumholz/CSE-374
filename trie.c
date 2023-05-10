@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "trieNode.h"
+#include "trienode.h"
 
 // Create empty trie 
 trieNode * build_tree() {
