@@ -16,7 +16,7 @@ trieNode * build_tree() {
   trieNode * node = (trieNode *) malloc(sizeof(trieNode));
   node -> word = NULL;
   int i;
-  for (i = 0; i < 10; i++) {
+  for (i = 0; i < 11; i++) {
     node -> branches[i] = NULL;
   }
   return node;
@@ -98,11 +98,11 @@ trieNode * find_nodes(trieNode * root, char * number) {
 }
 
 // Recursively disconnect by freeing
-void mallocFree(trieNode * root) {
+void malfree(trieNode * root) {
   int i;
-  for (i = 0; i < 10; i++) {
+  for (i = 0; i < 11; i++) {
     if (root -> branches[i] != NULL) {
-      mallocFree(root -> branches[i]);
+      malfree(root -> branches[i]);
       free(root -> branches[i]);
     }
   }
