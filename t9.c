@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
       }
     }
   }
-  // Free up malloc to prevent memory leakage
+  // Free up malloc 
   malfree(root);
   free(root);
   return 0;
