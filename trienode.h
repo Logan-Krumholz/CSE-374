@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #define MAXLEN 50
-#define BRANCHES 9
+#define BRANCHES 11
 
 // trieNode is one node in an 9-tree, where branches correspond to
 // # and the T9 alphabet.
@@ -29,7 +29,7 @@ int T9conversion(char letter);
 void build_trie(trieNode * root, char * s);
 trieNode * find_nodes(trieNode * root, char * number);
 // deletes the entire tree branching from root
-void free_tree(trieNode *root);
+void malfree(trieNode *root);
 
 
 #endif
