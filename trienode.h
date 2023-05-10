@@ -14,7 +14,7 @@
 // trieNode is one node in an 9-tree, where branches correspond to
 // # and the T9 alphabet.
 typedef struct trieNode {
-  struct trieNode *branches[BRANCHES];
+  struct trieNode * branches[BRANCHES];
   char *word;
 } trieNode;
 
