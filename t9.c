@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
       break;
     }
     if (number[0] == '#') {
-      current = find_nodes(current, number)
+      current = find_nodes(current, number);
       if (current == NULL) {
         printf("There are no more T9onyms\n");
         current = root;
