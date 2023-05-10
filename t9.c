@@ -1,6 +1,8 @@
 /*
- * t9.c - the main program uses the trieNode for T9 predictive text implementation
+ * t9.c - Makes use of tries.c to enable t9 implementation to take an input value 
+ * and return the equivilant T9oynm.
  * CSE 374 HW 5, Logan Krumholz
+ * 5/10/23
  */
 
 #include <stdio.h>
@@ -52,8 +54,8 @@ int main(int argc, char* argv[]) {
       }
     }
   }
-  // Free up malloc 
-  malfree(root);
+  // Free up malloc to prevent memory leakage
+  mallocFree(root);
   free(root);
   return 0;
 }
