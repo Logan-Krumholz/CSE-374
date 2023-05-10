@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #define MAXLEN 50
-#define BRANCHES 11
+#define BRANCHES 9
 
 // trieNode is one node in an 9-tree, where branches correspond to
 // # and the T9 alphabet.
