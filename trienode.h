@@ -20,7 +20,7 @@ typedef struct trieNode {
 
 // given a word list (dict), build a trie that holds
 // each word.  Return pointer to the root node.
-trieNode * build_tree;
+trieNode * build_tree();
 
 // given a pattern, return the word stored in the
 // appropriate trieNode
