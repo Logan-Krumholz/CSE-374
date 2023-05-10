@@ -1,6 +1,8 @@
 /*
- * trie.c 
+ * trie.c - Creates tries and is resposnsible for building, traversing,
+ * and adding to existing Tries. Additionally the logic for T9 conversion is added as well.
  * CSE 374 HW 5 Logan Krumholz
+ * 5/10/23
  */
 
 #include <stdio.h>
@@ -14,7 +16,7 @@ trieNode * build_tree() {
   trieNode * node = (trieNode *) malloc(sizeof(trieNode));
   node -> word = NULL;
   int i;
-  for (i = 0; i < 11; i++) {
+  for (i = 0; i < 10; i++) {
     node -> branches[i] = NULL;
   }
   return node;
@@ -96,11 +98,11 @@ trieNode * find_nodes(trieNode * root, char * number) {
 }
 
 // Recursively disconnect by freeing
-void malfree(trieNode * root) {
+void mallocFree(trieNode * root) {
   int i;
-  for (i = 0; i < 11; i++) {
+  for (i = 0; i < 10; i++) {
     if (root -> branches[i] != NULL) {
-      malfree(root -> branches[i]);
+      mallocFree(root -> branches[i]);
       free(root -> branches[i]);
     }
   }
