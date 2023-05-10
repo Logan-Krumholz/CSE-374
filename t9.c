@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
       break;
     }
     if (number[0] == '#') {
-      current = current->branch;
+      current = current->branches;
       if (current == NULL) {
         printf("There are no more T9onyms\n");
         current = root;
