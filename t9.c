@@ -8,7 +8,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "trieNode.h"
+#include "trienode.h"
 
 // Pass in dictionary words and build tries accordingly
 int main(int argc, char* argv[]) {
