@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
       break;
     }
     if (number[0] == '#') {
-      current = current->next;
+      current = current->branch;
       if (current == NULL) {
         printf("There are no more T9onyms\n");
         current = root;
@@ -53,7 +53,6 @@ int main(int argc, char* argv[]) {
     }
   }
   // Free up malloc 
-  malfree(root);
   free(root);
   return 0;
 }
