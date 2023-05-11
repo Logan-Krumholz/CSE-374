@@ -1,3 +1,10 @@
+/*
+ * tnine - Originally worked on this but decided to put code in t9 based on the spec
+ * so code is disregarded and I am turning in this file based on the naming convention needs.
+ * CSE 374 HW 5 Logan Krumholz
+ * 5/10/23
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -35,13 +42,13 @@ int main(int argc, char **argv) {
     }
   }
 
-  // Build tries
+  // build the trie
   wordTrie = build_trie(dictionary);
 
   // run interactive session
   run_session(wordTrie);
 
-  // Clean
+  // clean up
   delete_trie(wordTrie);
   fclose(dictionary);
 
